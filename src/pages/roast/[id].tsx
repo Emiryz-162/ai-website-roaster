@@ -1,8 +1,8 @@
 import type { GetServerSideProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import Image from "next/image";
 import { getRoast, StoredRoast } from "@/lib/roastStore";
+import Logo from "@/components/Logo";
 import RoastResult from "@/components/RoastResult";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import { LanguageProvider } from "@/context/LanguageContext";
@@ -53,13 +53,7 @@ export default function SharedRoastPage({ entry }: Props) {
             {/* Nav */}
             <nav className="w-full flex items-center justify-between px-6 py-4 border-b border-white/5">
               <Link href="/" className="hover:opacity-80 transition-opacity" aria-label="AI Website Roaster — home">
-                <Image
-                  src="/logo.svg"
-                  alt="AI Website Roaster"
-                  width={160}
-                  height={36}
-                  priority
-                />
+                <Logo width={160} height={36} />
               </Link>
               <Link
                 href="/"

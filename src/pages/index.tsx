@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Head from "next/head";
-import Image from "next/image";
 import { Mail, Github, Linkedin } from "lucide-react";
+import Logo from "@/components/Logo";
 import UrlInput from "@/components/UrlInput";
 import RoastResult from "@/components/RoastResult";
 import HistoryList, { HistoryItem } from "@/components/HistoryList";
@@ -162,13 +162,7 @@ export default function Home() {
           {/* ── Top nav bar ─────────────────────────────────────────── */}
           <nav className="w-full flex items-center justify-between px-6 py-4 border-b border-white/5">
             {/* Logo */}
-            <Image
-              src="/logo.svg"
-              alt="AI Website Roaster"
-              width={160}
-              height={36}
-              priority
-            />
+            <Logo width={160} height={36} />
             <LanguageSelector />
           </nav>
 
