@@ -160,7 +160,7 @@ export default function Home() {
       <AnimatedBackground>
         <main className="flex min-h-screen flex-col items-center p-8 gap-8">
           <header className="w-full max-w-4xl flex flex-col sm:flex-row items-center justify-between mt-6 gap-4">
-            <div className="text-center sm:text-left">
+            <div className="text-center ltr:sm:text-left rtl:sm:text-right">
               <h1 className="text-4xl sm:text-5xl font-bold text-flame">{t("title")}</h1>
               <p className="mt-2 text-smoke/60 text-base sm:text-lg">
                 {t("subtitle")}

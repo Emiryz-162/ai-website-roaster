@@ -28,7 +28,7 @@ function ScoreBar({ label, score }: { label: string; score: number }) {
     score >= 80 ? "bg-green-500" : score >= 50 ? "bg-yellow-500" : "bg-red-500";
   return (
     <div className="flex items-center gap-3">
-      <span className="w-32 text-sm text-smoke/70 text-right">{label}</span>
+      <span className="w-32 text-sm text-smoke/70 ltr:text-right rtl:text-left">{label}</span>
       <div className="flex-1 h-3 bg-smoke/10 rounded-full overflow-hidden">
         <div
           className={`h-full rounded-full transition-all duration-700 ${color}`}
