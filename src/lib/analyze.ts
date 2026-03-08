@@ -47,7 +47,10 @@ function buildAnalysisObject(html: string, url: string) {
   };
 }
 
-export async function analyzeWebsite(url: string): Promise<AnalysisResult> {
+export async function analyzeWebsite(
+  url: string,
+  language: string = "en",
+): Promise<AnalysisResult> {
   // Validate URL
   const parsed = new URL(url);
   if (!["http:", "https:"].includes(parsed.protocol)) {
@@ -61,7 +64,7 @@ export async function analyzeWebsite(url: string): Promise<AnalysisResult> {
   const analysis = buildAnalysisObject(fetchResult.html, url);
 
   // Call OpenAI with analysis
-  const roast = await generateRoast(JSON.stringify(analysis));
+  const roast = await generateRoast(JSON.stringify(analysis), undefined, language);
 
   return {
     roast,
@@ -74,9 +77,10 @@ export async function analyzeWebsite(url: string): Promise<AnalysisResult> {
 export async function analyzeFromHTML(
   html: string,
   url: string,
+  language: string = "en",
 ): Promise<AnalysisResult> {
   const analysis = buildAnalysisObject(html, url);
-  const roast = await generateRoast(JSON.stringify(analysis));
+  const roast = await generateRoast(JSON.stringify(analysis), undefined, language);
 
   return {
     roast,

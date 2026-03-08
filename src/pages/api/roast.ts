@@ -24,7 +24,7 @@ export default async function handler(
       .json({ error: "Too many requests. Try again in a minute." });
   }
 
-  const { url, html, mode } = req.body;
+  const { url, html, mode, language = "en" } = req.body;
 
   if (!url && !html) {
     return res.status(400).json({ error: "URL or HTML upload required" });
@@ -33,7 +33,7 @@ export default async function handler(
   try {
     // Fallback path: user uploaded HTML directly (for bot-protected sites)
     if (html && typeof html === "string") {
-      const result = await analyzeFromHTML(html, url || "uploaded-html");
+      const result = await analyzeFromHTML(html, url || "uploaded-html", language);
       return res.status(200).json(result);
     }
 
@@ -44,7 +44,7 @@ export default async function handler(
       return res.status(400).json({ error: "Invalid URL format" });
     }
 
-    const result = await analyzeWebsite(url);
+    const result = await analyzeWebsite(url, language);
     return res.status(200).json(result);
   } catch (err) {
     if (err instanceof FetcherError && err.code === "BOT_PROTECTED") {

@@ -4,6 +4,7 @@ import UrlInput from "@/components/UrlInput";
 import RoastResult from "@/components/RoastResult";
 import HistoryList, { HistoryItem } from "@/components/HistoryList";
 import FallbackUpload from "@/components/FallbackUpload";
+import { useLanguage } from "@/context/LanguageContext";
 import type { RoastResponse } from "@/lib/openai";
 
 interface AnalysisResult {
@@ -24,6 +25,7 @@ const HISTORY_KEY = "roast-history";
 const MAX_HISTORY = 10;
 
 export default function Home() {
+  const { currentLanguage } = useLanguage();
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -84,7 +86,7 @@ export default function Home() {
       const res = await fetch("/api/roast", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url }),
+        body: JSON.stringify({ url, language: currentLanguage.code }),
       });
 
       const data = await res.json();
@@ -118,7 +120,7 @@ export default function Home() {
       const res = await fetch("/api/roast", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: botProtected, html }),
+        body: JSON.stringify({ url: botProtected, html, language: currentLanguage.code }),
       });
 
       const data = await res.json();
