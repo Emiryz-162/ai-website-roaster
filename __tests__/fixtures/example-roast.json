@@ -1,0 +1,63 @@
+{
+  "input": {
+    "url": "https://example.com",
+    "title": "Example Domain",
+    "metaDescription": null,
+    "hasViewport": false,
+    "hasH1": true,
+    "imgCount": 0,
+    "imgWithoutAlt": 0,
+    "linkCount": 1,
+    "scriptCount": 0,
+    "inlineStyleCount": 1,
+    "htmlSizeBytes": 1256,
+    "htmlSnippet": "<!doctype html><html><head><title>Example Domain</title>..."
+  },
+  "expectedOutput": {
+    "headline": "The Internet's Placeholder Champion",
+    "roast": "Congratulations, you've built a website so minimal it makes a 404 page look feature-rich. At least it loads fast — there's nothing to load.",
+    "scores": {
+      "performance": 95,
+      "accessibility": 40,
+      "seo": 25
+    },
+    "issues": [
+      {
+        "title": "Missing viewport meta tag",
+        "description": "No viewport meta tag found, making the page non-responsive on mobile devices",
+        "severity": "high",
+        "evidence": "<head> section lacks <meta name='viewport'>"
+      },
+      {
+        "title": "No meta description",
+        "description": "Missing meta description hurts SEO and SERP click-through rates",
+        "severity": "high",
+        "evidence": "No <meta name='description'> found"
+      },
+      {
+        "title": "Inline styles",
+        "description": "1 inline <style> block found; prefer external CSS for cacheability",
+        "severity": "low",
+        "evidence": "<style> tag in <head>"
+      }
+    ],
+    "fixes": [
+      {
+        "issueTitle": "Missing viewport meta tag",
+        "suggestion": "Add a viewport meta tag in the <head> section",
+        "codeSnippet": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
+      },
+      {
+        "issueTitle": "No meta description",
+        "suggestion": "Add a descriptive meta tag for SEO",
+        "codeSnippet": "<meta name=\"description\" content=\"Example Domain - a placeholder for illustrative examples.\">"
+      }
+    ],
+    "actionable_steps": [
+      "Add viewport meta tag for mobile responsiveness",
+      "Write a compelling meta description for search engines",
+      "Move inline styles to an external stylesheet"
+    ],
+    "confidence": "high"
+  }
+}

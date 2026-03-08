@@ -1,6 +1,12 @@
 import OpenAI from "openai";
 
-const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+let _client: OpenAI | null = null;
+function getClient(): OpenAI {
+  if (!_client) {
+    _client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  }
+  return _client;
+}
 
 // Verbatim prompt template as specified in requirements
 const SYSTEM_MESSAGE = `You are a concise, witty, and constructive website UX/SEO/performance critic. Return ONLY valid JSON with the following fields:
@@ -60,7 +66,7 @@ export async function generateRoast(
   const userMessage = `Here is the analysis object: ${analysisJSON}. Produce the JSON response described above. Keep roast witty but constructive. Provide short code suggestions for fixes when relevant. Max tokens 800. Temperature 0.3.`;
 
   try {
-    const completion = await client.chat.completions.create({
+    const completion = await getClient().chat.completions.create({
       model,
       messages: [
         { role: "system", content: SYSTEM_MESSAGE },
