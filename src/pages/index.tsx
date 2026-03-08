@@ -5,6 +5,7 @@ import RoastResult from "@/components/RoastResult";
 import HistoryList, { HistoryItem } from "@/components/HistoryList";
 import FallbackUpload from "@/components/FallbackUpload";
 import LanguageSelector from "@/components/LanguageSelector";
+import AnimatedBackground from "@/components/AnimatedBackground";
 import { useLanguage } from "@/context/LanguageContext";
 import type { RoastResponse } from "@/lib/openai";
 
@@ -148,6 +149,7 @@ export default function Home() {
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
+      <AnimatedBackground>
       <main className="flex min-h-screen flex-col items-center p-8 gap-8">
         <header className="w-full max-w-4xl flex flex-col sm:flex-row items-center justify-between mt-6 gap-4">
           <div className="text-center sm:text-left">
@@ -183,6 +185,7 @@ export default function Home() {
           Built with Next.js + OpenAI. Screenshots may not work on bot-protected sites.
         </footer>
       </main>
+      </AnimatedBackground>
     </>
   );
 }

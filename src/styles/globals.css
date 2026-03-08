@@ -5,3 +5,31 @@
 body {
   @apply bg-charcoal text-smoke font-mono;
 }
+
+.animated-bg {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 107, 53, 0.12), transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.08), transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.05), transparent 50%),
+    #0f172a;
+  background-size: 200% 200%;
+  animation: gradient-shift 20s ease-in-out infinite;
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 0%;
+  }
+  25% {
+    background-position: 50% 100%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  75% {
+    background-position: 50% 0%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
