@@ -4,6 +4,7 @@ import UrlInput from "@/components/UrlInput";
 import RoastResult from "@/components/RoastResult";
 import HistoryList, { HistoryItem } from "@/components/HistoryList";
 import FallbackUpload from "@/components/FallbackUpload";
+import LanguageSelector from "@/components/LanguageSelector";
 import { useLanguage } from "@/context/LanguageContext";
 import type { RoastResponse } from "@/lib/openai";
 
@@ -148,11 +149,14 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <main className="flex min-h-screen flex-col items-center p-8 gap-8">
-        <header className="text-center mt-12">
-          <h1 className="text-5xl font-bold text-flame">AI Website Roaster</h1>
-          <p className="mt-3 text-smoke/60 text-lg max-w-md">
-            Paste a URL. Get brutally honest AI feedback on design, performance &amp; SEO.
-          </p>
+        <header className="w-full max-w-4xl flex flex-col sm:flex-row items-center justify-between mt-6 gap-4">
+          <div className="text-center sm:text-left">
+            <h1 className="text-4xl sm:text-5xl font-bold text-flame">AI Website Roaster</h1>
+            <p className="mt-2 text-smoke/60 text-base sm:text-lg">
+              Paste a URL. Get brutally honest AI feedback on design, performance &amp; SEO.
+            </p>
+          </div>
+          <LanguageSelector />
         </header>
 
         <UrlInput onSubmit={handleRoast} isLoading={isLoading} progress={progress} />
