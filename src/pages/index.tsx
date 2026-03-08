@@ -158,6 +158,11 @@ export default function Home() {
 
       <AnimatedBackground>
         <div className="min-h-screen flex flex-col">
+          {/* ── Language selector — fixed top-right ──────────────────── */}
+          <div className="fixed top-5 right-6 z-50">
+            <LanguageSelector />
+          </div>
+
           {/* ── Main content ─────────────────────────────────────────── */}
           <main
             className="flex-1 flex flex-col items-center px-4 sm:px-8 pt-16 pb-20 gap-12"
