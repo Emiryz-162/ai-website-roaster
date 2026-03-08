@@ -52,8 +52,9 @@ export default function FallbackUpload({ url, onSubmit, isLoading }: FallbackUpl
       <button
         onClick={() => onSubmit(html)}
         disabled={isLoading || !html.trim()}
-        className="px-6 py-2 bg-flame text-charcoal font-bold rounded-xl
-                   hover:bg-flame/90 hover:brightness-110 disabled:opacity-50 transition-all"
+        className="px-6 py-2.5 bg-flame text-charcoal font-bold rounded-xl
+                   hover:bg-flame/90 hover:brightness-110 active:scale-95
+                   disabled:opacity-50 disabled:active:scale-100 transition-all duration-200"
       >
         {isLoading ? t("roastingButton") : t("roastFromHtml")}
       </button>

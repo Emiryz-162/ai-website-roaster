@@ -151,48 +151,89 @@ export default function Home() {
     <>
       <Head>
         <title>{t("title")}</title>
-        <meta
-          name="description"
-          content={t("subtitle")}
-        />
+        <meta name="description" content={t("subtitle")} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
+
       <AnimatedBackground>
-        <main className="flex min-h-screen flex-col items-center p-8 gap-8">
-          <header className="w-full max-w-4xl flex flex-col sm:flex-row items-center justify-between mt-6 gap-4">
-            <div className="text-center ltr:sm:text-left rtl:sm:text-right">
-              <h1 className="text-4xl sm:text-5xl font-bold text-flame">{t("title")}</h1>
-              <p className="mt-2 text-smoke/60 text-base sm:text-lg">
-                {t("subtitle")}
-              </p>
+        <div className="min-h-screen flex flex-col">
+          {/* ── Top nav bar ─────────────────────────────────────────── */}
+          <nav className="w-full flex items-center justify-between px-6 py-4 border-b border-white/5">
+            <div className="flex items-center gap-2">
+              <span className="text-flame text-xl" aria-hidden="true">🔥</span>
+              <span className="font-bold text-smoke text-sm tracking-tight">
+                {t("title")}
+              </span>
             </div>
             <LanguageSelector />
-          </header>
+          </nav>
 
-          <UrlInput onSubmit={handleRoast} isLoading={isLoading} progress={progress} />
+          {/* ── Main content ─────────────────────────────────────────── */}
+          <main
+            className="flex-1 flex flex-col items-center px-4 sm:px-8 pt-16 pb-20 gap-12"
+            id="main-content"
+          >
+            {/* Hero */}
+            <section className="text-center max-w-3xl mx-auto flex flex-col items-center gap-5">
+              {/* Badge */}
+              <div
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full
+                           bg-flame/10 border border-flame/20 text-flame text-xs font-medium"
+              >
+                <span aria-hidden="true">🔥</span>
+                AI-Powered Website Analysis
+              </div>
 
-          {error && (
-            <p className="text-red-400 max-w-xl text-center" role="alert">
-              {error}
-            </p>
-          )}
+              {/* Title with gradient */}
+              <h1
+                className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tight
+                           bg-gradient-to-br from-flame via-orange-300 to-yellow-200
+                           bg-clip-text text-transparent"
+              >
+                {t("title")}
+              </h1>
 
-          {botProtected && (
-            <FallbackUpload
-              url={botProtected}
-              onSubmit={handleFallbackSubmit}
-              isLoading={isLoading}
-            />
-          )}
+              {/* Subtitle */}
+              <p className="text-smoke/60 text-lg sm:text-xl max-w-xl leading-relaxed">
+                {t("subtitle")}
+              </p>
+            </section>
 
-          {result && <RoastResult result={result} />}
+            {/* URL input */}
+            <UrlInput onSubmit={handleRoast} isLoading={isLoading} progress={progress} />
 
-          <HistoryList items={history} onSelect={handleRoast} />
+            {/* Error */}
+            {error && (
+              <div
+                className="w-full max-w-2xl px-5 py-4 rounded-xl bg-red-500/10 border border-red-500/20
+                           text-red-400 text-sm text-center"
+                role="alert"
+              >
+                {error}
+              </div>
+            )}
 
-          <footer className="mt-auto py-6 text-center text-sm text-smoke/30">
+            {/* Bot protection fallback */}
+            {botProtected && (
+              <FallbackUpload
+                url={botProtected}
+                onSubmit={handleFallbackSubmit}
+                isLoading={isLoading}
+              />
+            )}
+
+            {/* Result */}
+            {result && <RoastResult result={result} />}
+
+            {/* History */}
+            <HistoryList items={history} onSelect={handleRoast} />
+          </main>
+
+          {/* ── Footer ──────────────────────────────────────────────── */}
+          <footer className="w-full border-t border-white/5 py-6 text-center text-xs text-smoke/25">
             {t("footer")}
           </footer>
-        </main>
+        </div>
       </AnimatedBackground>
     </>
   );
