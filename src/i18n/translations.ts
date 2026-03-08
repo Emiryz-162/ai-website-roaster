@@ -5,7 +5,7 @@
 const en = {
   // Header
   title: "AI Website Roaster",
-  subtitle: "Paste a URL. Get brutally honest AI feedback on design, performance & SEO.",
+  subtitle: "Analyze any website and get AI insights on design, performance, accessibility and SEO.",
   // URL input form
   urlPlaceholder: "Paste a website URL to roast...",
   urlLabel: "Website URL",
