@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import Head from "next/head";
 import { Mail, Github, Linkedin } from "lucide-react";
-import Logo from "@/components/Logo";
 import UrlInput from "@/components/UrlInput";
 import RoastResult from "@/components/RoastResult";
 import HistoryList, { HistoryItem } from "@/components/HistoryList";

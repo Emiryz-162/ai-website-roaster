@@ -9,7 +9,7 @@ interface LogoProps {
  * Using <img> / next/image with an SVG <text> element fails because fonts are
  * unavailable in the image rendering context. This component avoids that issue.
  */
-export default function Logo({ width = 160, height = 36, className }: LogoProps) {
+export default function Logo({ width = 210, height = 36, className }: LogoProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

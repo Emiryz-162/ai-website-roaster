@@ -53,7 +53,7 @@ export default function SharedRoastPage({ entry }: Props) {
             {/* Nav */}
             <nav className="w-full flex items-center justify-between px-6 py-4 border-b border-white/5">
               <Link href="/" className="hover:opacity-80 transition-opacity" aria-label="AI Website Roaster — home">
-                <Logo width={160} height={36} />
+                <Logo />
               </Link>
               <Link
                 href="/"
