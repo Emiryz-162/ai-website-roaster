@@ -165,11 +165,11 @@ export default function Home() {
 
           {/* ── Main content ─────────────────────────────────────────── */}
           <main
-            className="flex-1 flex flex-col items-center px-4 sm:px-8 pt-16 pb-20 gap-12"
+            className="flex-1 flex flex-col items-center px-4 sm:px-8 pb-20 gap-12"
             id="main-content"
           >
             {/* Hero */}
-            <section className="text-center max-w-3xl mx-auto flex flex-col items-center gap-5">
+            <section className="text-center max-w-3xl mx-auto flex flex-col items-center gap-5 pt-24">
               {/* Title with gradient */}
               <h1
                 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tight
