@@ -159,13 +159,6 @@ export default function Home() {
 
       <AnimatedBackground>
         <div className="min-h-screen flex flex-col">
-          {/* ── Top nav bar ─────────────────────────────────────────── */}
-          <nav className="w-full flex items-center justify-between px-6 py-4 border-b border-white/5">
-            {/* Logo */}
-            <Logo width={160} height={36} />
-            <LanguageSelector />
-          </nav>
-
           {/* ── Main content ─────────────────────────────────────────── */}
           <main
             className="flex-1 flex flex-col items-center px-4 sm:px-8 pt-16 pb-20 gap-12"
