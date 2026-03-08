@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Head from "next/head";
+import Image from "next/image";
+import { Mail, Github, Linkedin } from "lucide-react";
 import UrlInput from "@/components/UrlInput";
 import RoastResult from "@/components/RoastResult";
 import HistoryList, { HistoryItem } from "@/components/HistoryList";
@@ -159,12 +161,14 @@ export default function Home() {
         <div className="min-h-screen flex flex-col">
           {/* ── Top nav bar ─────────────────────────────────────────── */}
           <nav className="w-full flex items-center justify-between px-6 py-4 border-b border-white/5">
-            <div className="flex items-center gap-2">
-              <span className="text-flame text-xl" aria-hidden="true">🔥</span>
-              <span className="font-bold text-smoke text-sm tracking-tight">
-                {t("title")}
-              </span>
-            </div>
+            {/* Logo */}
+            <Image
+              src="/logo.svg"
+              alt="AI Website Roaster"
+              width={160}
+              height={36}
+              priority
+            />
             <LanguageSelector />
           </nav>
 
@@ -175,15 +179,6 @@ export default function Home() {
           >
             {/* Hero */}
             <section className="text-center max-w-3xl mx-auto flex flex-col items-center gap-5">
-              {/* Badge */}
-              <div
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full
-                           bg-flame/10 border border-flame/20 text-flame text-xs font-medium"
-              >
-                <span aria-hidden="true">🔥</span>
-                AI-Powered Website Analysis
-              </div>
-
               {/* Title with gradient */}
               <h1
                 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tight
@@ -230,8 +225,40 @@ export default function Home() {
           </main>
 
           {/* ── Footer ──────────────────────────────────────────────── */}
-          <footer className="w-full border-t border-white/5 py-6 text-center text-xs text-smoke/25">
-            {t("footer")}
+          <footer className="w-full border-t border-white/5 py-6 px-6">
+            <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+              {/* Copyright */}
+              <p className="text-xs text-smoke/30">© 2026 Emir Yılmaz</p>
+
+              {/* Social icons */}
+              <div className="flex items-center gap-5">
+                <a
+                  href="mailto:yz.emir@hotmail.com"
+                  aria-label="Send email"
+                  className="text-smoke/30 hover:text-flame transition-colors duration-200"
+                >
+                  <Mail size={16} />
+                </a>
+                <a
+                  href="https://github.com/Emiryz-162"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="GitHub profile"
+                  className="text-smoke/30 hover:text-flame transition-colors duration-200"
+                >
+                  <Github size={16} />
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/emir-y/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn profile"
+                  className="text-smoke/30 hover:text-flame transition-colors duration-200"
+                >
+                  <Linkedin size={16} />
+                </a>
+              </div>
+            </div>
           </footer>
         </div>
       </AnimatedBackground>
