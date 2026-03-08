@@ -1,4 +1,6 @@
 import { RoastResponse } from "@/lib/openai";
+import { useLanguage } from "@/context/LanguageContext";
+import { useTranslation } from "@/lib/useTranslation";
 
 interface RoastResultProps {
   result: {
@@ -40,21 +42,23 @@ function ScoreBar({ label, score }: { label: string; score: number }) {
 
 export default function RoastResult({ result }: RoastResultProps) {
   const { roast, screenshot, url } = result;
+  const { currentLanguage } = useLanguage();
+  const { t } = useTranslation(currentLanguage.code);
 
   const handleCopy = () => {
-    const text = `${roast.headline}\n\n${roast.roast}\n\nScores:\n- Performance: ${roast.scores.performance}/100\n- Accessibility: ${roast.scores.accessibility}/100\n- SEO: ${roast.scores.seo}/100\n\nIssues:\n${roast.issues.map((i) => `- [${i.severity}] ${i.title}: ${i.description}`).join("\n")}`;
+    const text = `${roast.headline}\n\n${roast.roast}\n\n${t("scores")}:\n- ${t("performance")}: ${roast.scores.performance}/100\n- ${t("accessibility")}: ${roast.scores.accessibility}/100\n- ${t("seo")}: ${roast.scores.seo}/100\n\n${t("issuesFound")}:\n${roast.issues.map((i) => `- [${i.severity}] ${i.title}: ${i.description}`).join("\n")}`;
     navigator.clipboard.writeText(text);
   };
 
   return (
     <div className="w-full max-w-2xl mx-auto space-y-6">
       {/* Headline & Roast */}
-      <div className="bg-charcoal/50 border border-flame/30 rounded-lg p-6">
+      <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl shadow-lg p-6 hover:scale-[1.01] transition-transform">
         <h2 className="text-2xl font-bold text-flame mb-2">{roast.headline}</h2>
         <p className="text-lg text-smoke/90 italic">&ldquo;{roast.roast}&rdquo;</p>
         <div className="mt-3 flex items-center gap-4 text-sm">
           <span className={`${confidenceColors[roast.confidence] || "text-smoke/50"}`}>
-            Confidence: {roast.confidence}
+            {t("confidence")} {roast.confidence}
           </span>
           <span className="text-smoke/40">|</span>
           <a
@@ -70,7 +74,7 @@ export default function RoastResult({ result }: RoastResultProps) {
 
       {/* Screenshot */}
       {screenshot && (
-        <div className="rounded-lg overflow-hidden border border-smoke/10">
+        <div className="rounded-xl overflow-hidden border border-white/10 shadow-lg">
           <img
             src={`data:image/png;base64,${screenshot}`}
             alt={`Screenshot of ${url}`}
@@ -80,22 +84,22 @@ export default function RoastResult({ result }: RoastResultProps) {
       )}
 
       {/* Scores */}
-      <div className="bg-charcoal/50 border border-smoke/10 rounded-lg p-6 space-y-3">
-        <h3 className="text-lg font-bold text-smoke mb-3">Scores</h3>
-        <ScoreBar label="Performance" score={roast.scores.performance} />
-        <ScoreBar label="Accessibility" score={roast.scores.accessibility} />
-        <ScoreBar label="SEO" score={roast.scores.seo} />
+      <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl shadow-lg p-6 space-y-3 hover:scale-[1.01] transition-transform">
+        <h3 className="text-lg font-bold text-smoke mb-3">{t("scores")}</h3>
+        <ScoreBar label={t("performance")} score={roast.scores.performance} />
+        <ScoreBar label={t("accessibility")} score={roast.scores.accessibility} />
+        <ScoreBar label={t("seo")} score={roast.scores.seo} />
       </div>
 
       {/* Issues */}
       {roast.issues.length > 0 && (
-        <div className="bg-charcoal/50 border border-smoke/10 rounded-lg p-6">
-          <h3 className="text-lg font-bold text-smoke mb-4">Issues Found</h3>
+        <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl shadow-lg p-6 hover:scale-[1.01] transition-transform">
+          <h3 className="text-lg font-bold text-smoke mb-4">{t("issuesFound")}</h3>
           <ul className="space-y-3">
             {roast.issues.map((issue, i) => (
               <li
                 key={i}
-                className="border border-smoke/10 rounded-lg p-4 space-y-1"
+                className="border border-white/5 rounded-lg p-4 space-y-1 bg-white/[0.02]"
               >
                 <div className="flex items-center gap-2">
                   <span
@@ -119,8 +123,8 @@ export default function RoastResult({ result }: RoastResultProps) {
 
       {/* Fixes */}
       {roast.fixes.length > 0 && (
-        <div className="bg-charcoal/50 border border-smoke/10 rounded-lg p-6">
-          <h3 className="text-lg font-bold text-smoke mb-4">Suggested Fixes</h3>
+        <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl shadow-lg p-6 hover:scale-[1.01] transition-transform">
+          <h3 className="text-lg font-bold text-smoke mb-4">{t("suggestedFixes")}</h3>
           <ul className="space-y-4">
             {roast.fixes.map((fix, i) => (
               <li key={i} className="space-y-1">
@@ -139,8 +143,8 @@ export default function RoastResult({ result }: RoastResultProps) {
 
       {/* Actionable Steps */}
       {roast.actionable_steps.length > 0 && (
-        <div className="bg-charcoal/50 border border-smoke/10 rounded-lg p-6">
-          <h3 className="text-lg font-bold text-smoke mb-3">Action Plan</h3>
+        <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl shadow-lg p-6 hover:scale-[1.01] transition-transform">
+          <h3 className="text-lg font-bold text-smoke mb-3">{t("actionPlan")}</h3>
           <ol className="list-decimal list-inside space-y-2">
             {roast.actionable_steps.map((step, i) => (
               <li key={i} className="text-sm text-smoke/80">
@@ -155,10 +159,11 @@ export default function RoastResult({ result }: RoastResultProps) {
       <div className="flex gap-3 justify-center">
         <button
           onClick={handleCopy}
-          className="px-4 py-2 border border-smoke/20 rounded-lg text-sm text-smoke/70
-                     hover:border-flame/50 hover:text-flame transition-colors"
+          className="px-4 py-2 border border-white/10 rounded-xl text-sm text-smoke/70
+                     bg-white/5 backdrop-blur-md hover:bg-white/10 hover:text-flame
+                     hover:brightness-110 transition-all"
         >
-          Copy to Clipboard
+          {t("copyClipboard")}
         </button>
       </div>
     </div>

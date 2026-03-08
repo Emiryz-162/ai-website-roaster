@@ -1,4 +1,6 @@
 import { useState, FormEvent } from "react";
+import { useLanguage } from "@/context/LanguageContext";
+import { useTranslation } from "@/lib/useTranslation";
 
 type RoastMode = "screenshot" | "html" | "lighthouse";
 
@@ -11,6 +13,8 @@ interface UrlInputProps {
 export default function UrlInput({ onSubmit, isLoading, progress }: UrlInputProps) {
   const [url, setUrl] = useState("");
   const [mode, setMode] = useState<RoastMode>("screenshot");
+  const { currentLanguage } = useLanguage();
+  const { t } = useTranslation(currentLanguage.code);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -19,11 +23,12 @@ export default function UrlInput({ onSubmit, isLoading, progress }: UrlInputProp
     onSubmit(normalizedUrl, mode);
   };
 
-  const modes: { value: RoastMode; label: string }[] = [
-    { value: "screenshot", label: "Screenshot (Playwright)" },
-    { value: "html", label: "HTML-only" },
-    { value: "lighthouse", label: "Lighthouse" },
-  ];
+  const modes: { value: RoastMode; labelKey: "screenshotMode" | "htmlMode" | "lighthouseMode" }[] =
+    [
+      { value: "screenshot", labelKey: "screenshotMode" },
+      { value: "html", labelKey: "htmlMode" },
+      { value: "lighthouse", labelKey: "lighthouseMode" },
+    ];
 
   return (
     <form
@@ -32,7 +37,7 @@ export default function UrlInput({ onSubmit, isLoading, progress }: UrlInputProp
       role="search"
     >
       <label htmlFor="url-input" className="sr-only">
-        Website URL
+        {t("urlLabel")}
       </label>
       <div className="relative w-full">
         <input
@@ -40,22 +45,22 @@ export default function UrlInput({ onSubmit, isLoading, progress }: UrlInputProp
           type="text"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
-          placeholder="Paste a website URL to roast..."
-          className="w-full px-6 py-4 bg-charcoal/50 border-2 border-flame/30 rounded-lg
+          placeholder={t("urlPlaceholder")}
+          className="w-full px-6 py-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl
                      text-smoke placeholder-smoke/40 focus:border-flame focus:outline-none
-                     transition-colors text-lg"
+                     transition-colors text-lg shadow-lg"
           disabled={isLoading}
           autoComplete="url"
         />
       </div>
 
       <fieldset className="flex gap-4 flex-wrap justify-center">
-        <legend className="sr-only">Analysis mode</legend>
+        <legend className="sr-only">{t("analysisModeLabel")}</legend>
         {modes.map((m) => (
           <label
             key={m.value}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-md cursor-pointer border transition-colors
-              ${mode === m.value ? "border-flame bg-flame/10 text-flame" : "border-smoke/20 text-smoke/60 hover:border-smoke/40"}`}
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-xl cursor-pointer border transition-all
+              ${mode === m.value ? "border-flame bg-flame/10 text-flame" : "border-white/10 text-smoke/60 hover:border-smoke/30 bg-white/5"}`}
           >
             <input
               type="radio"
@@ -65,7 +70,7 @@ export default function UrlInput({ onSubmit, isLoading, progress }: UrlInputProp
               onChange={() => setMode(m.value)}
               className="sr-only"
             />
-            {m.label}
+            {t(m.labelKey)}
           </label>
         ))}
       </fieldset>
@@ -73,11 +78,11 @@ export default function UrlInput({ onSubmit, isLoading, progress }: UrlInputProp
       <button
         type="submit"
         disabled={isLoading || !url.trim()}
-        className="px-8 py-3 bg-flame text-charcoal font-bold rounded-lg
-                   hover:bg-flame/90 disabled:opacity-50 disabled:cursor-not-allowed
-                   transition-all text-lg"
+        className="px-8 py-3 bg-flame text-charcoal font-bold rounded-xl
+                   hover:bg-flame/90 hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed
+                   transition-all text-lg shadow-lg"
       >
-        {isLoading ? "Roasting..." : "Roast This Site"}
+        {isLoading ? t("roastingButton") : t("roastButton")}
       </button>
 
       {isLoading && progress && (

@@ -7,6 +7,7 @@ import FallbackUpload from "@/components/FallbackUpload";
 import LanguageSelector from "@/components/LanguageSelector";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import { useLanguage } from "@/context/LanguageContext";
+import { useTranslation } from "@/lib/useTranslation";
 import type { RoastResponse } from "@/lib/openai";
 
 interface AnalysisResult {
@@ -16,24 +17,25 @@ interface AnalysisResult {
   timestamp: number;
 }
 
-const PROGRESS_STEPS = [
-  "Fetching page...",
-  "Taking screenshot...",
-  "Analyzing content...",
-  "Generating AI roast...",
-];
-
 const HISTORY_KEY = "roast-history";
 const MAX_HISTORY = 10;
 
 export default function Home() {
   const { currentLanguage } = useLanguage();
+  const { t } = useTranslation(currentLanguage.code);
+
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [botProtected, setBotProtected] = useState<string | null>(null);
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [progress, setProgress] = useState<string | null>(null);
+
+  // RTL support for Arabic
+  useEffect(() => {
+    document.documentElement.dir = currentLanguage.code === "ar" ? "rtl" : "ltr";
+    document.documentElement.lang = currentLanguage.code;
+  }, [currentLanguage.code]);
 
   useEffect(() => {
     try {
@@ -62,19 +64,25 @@ export default function Home() {
     [history],
   );
 
-  const simulateProgress = () => {
+  const simulateProgress = useCallback(() => {
+    const steps = [
+      t("progressFetching"),
+      t("progressScreenshot"),
+      t("progressAnalyzing"),
+      t("progressGenerating"),
+    ];
     let step = 0;
-    setProgress(PROGRESS_STEPS[0]);
+    setProgress(steps[0]);
     const interval = setInterval(() => {
       step++;
-      if (step < PROGRESS_STEPS.length) {
-        setProgress(PROGRESS_STEPS[step]);
+      if (step < steps.length) {
+        setProgress(steps[step]);
       } else {
         clearInterval(interval);
       }
     }, 2500);
     return () => clearInterval(interval);
-  };
+  }, [t]);
 
   const handleRoast = async (url: string) => {
     setIsLoading(true);
@@ -116,7 +124,7 @@ export default function Home() {
   const handleFallbackSubmit = async (html: string) => {
     setIsLoading(true);
     setError(null);
-    setProgress("Generating AI roast from HTML...");
+    setProgress(t("progressFromHtml"));
 
     try {
       const res = await fetch("/api/roast", {
@@ -142,49 +150,49 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>AI Website Roaster</title>
+        <title>{t("title")}</title>
         <meta
           name="description"
-          content="Paste a URL and get a brutally honest AI-powered roast of any website's design, performance, and SEO."
+          content={t("subtitle")}
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <AnimatedBackground>
-      <main className="flex min-h-screen flex-col items-center p-8 gap-8">
-        <header className="w-full max-w-4xl flex flex-col sm:flex-row items-center justify-between mt-6 gap-4">
-          <div className="text-center sm:text-left">
-            <h1 className="text-4xl sm:text-5xl font-bold text-flame">AI Website Roaster</h1>
-            <p className="mt-2 text-smoke/60 text-base sm:text-lg">
-              Paste a URL. Get brutally honest AI feedback on design, performance &amp; SEO.
+        <main className="flex min-h-screen flex-col items-center p-8 gap-8">
+          <header className="w-full max-w-4xl flex flex-col sm:flex-row items-center justify-between mt-6 gap-4">
+            <div className="text-center sm:text-left">
+              <h1 className="text-4xl sm:text-5xl font-bold text-flame">{t("title")}</h1>
+              <p className="mt-2 text-smoke/60 text-base sm:text-lg">
+                {t("subtitle")}
+              </p>
+            </div>
+            <LanguageSelector />
+          </header>
+
+          <UrlInput onSubmit={handleRoast} isLoading={isLoading} progress={progress} />
+
+          {error && (
+            <p className="text-red-400 max-w-xl text-center" role="alert">
+              {error}
             </p>
-          </div>
-          <LanguageSelector />
-        </header>
+          )}
 
-        <UrlInput onSubmit={handleRoast} isLoading={isLoading} progress={progress} />
+          {botProtected && (
+            <FallbackUpload
+              url={botProtected}
+              onSubmit={handleFallbackSubmit}
+              isLoading={isLoading}
+            />
+          )}
 
-        {error && (
-          <p className="text-red-400 max-w-xl text-center" role="alert">
-            {error}
-          </p>
-        )}
+          {result && <RoastResult result={result} />}
 
-        {botProtected && (
-          <FallbackUpload
-            url={botProtected}
-            onSubmit={handleFallbackSubmit}
-            isLoading={isLoading}
-          />
-        )}
+          <HistoryList items={history} onSelect={handleRoast} />
 
-        {result && <RoastResult result={result} />}
-
-        <HistoryList items={history} onSelect={handleRoast} />
-
-        <footer className="mt-auto py-6 text-center text-sm text-smoke/30">
-          Built with Next.js + OpenAI. Screenshots may not work on bot-protected sites.
-        </footer>
-      </main>
+          <footer className="mt-auto py-6 text-center text-sm text-smoke/30">
+            {t("footer")}
+          </footer>
+        </main>
       </AnimatedBackground>
     </>
   );
